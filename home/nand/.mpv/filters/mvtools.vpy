@@ -19,9 +19,9 @@ if not (clip.width > 1920 or clip.height > 1080 or container_fps > 59):
     clip = core.std.AssumeFPS(clip, fpsnum = src_fps_num, fpsden = src_fps_den)
     print("Reflowing from ",src_fps_num/src_fps_den," fps to ",dst_fps_num/dst_fps_den," fps.")
     
-    sup  = core.mv.Super(clip, pel=2, hpad=16, vpad=16)
-    bvec = core.mv.Analyse(sup, blksize=16, isb=True , chroma=True, search=3, searchparam=1)
-    fvec = core.mv.Analyse(sup, blksize=16, isb=False, chroma=True, search=3, searchparam=1)
-    clip = core.mv.BlockFPS(clip, sup, bvec, fvec, num=dst_fps_num, den=dst_fps_den, mode=3, thscd2=12)
+    sup  = core.mv.Super(clip, pel=2)
+    bvec = core.mv.Analyse(sup, isb=True , overlap=0)
+    fvec = core.mv.Analyse(sup, isb=False, overlap=0)
+    clip = core.mv.BlockFPS(clip, sup, bvec, fvec, num=dst_fps_num, den=dst_fps_den)
 
 clip.set_output()
